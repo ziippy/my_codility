@@ -70,6 +70,29 @@ def solution(N, A):
     return target_list
     '''
 
+    # 아래와 같이 하면, 100% 만족, 복잡도는 O(N + M)
+    # 즉, target_list 를 새로 만드냐 안 만드냐의 차이로 인해 성공한 것 같다.
+    target_list = [0] * N
+    global_maximum = 0
+    local_maximum = 0
+    for x in A:
+        if x == N + 1:
+            global_maximum = local_maximum
+            continue
+        #
+        if target_list[x - 1] < global_maximum:
+            target_list[x - 1] = global_maximum
+
+        target_list[x - 1] += 1
+        if target_list[x - 1] > local_maximum:
+            local_maximum = target_list[x - 1]
+
+    for i in range(N):
+        if target_list[i] < global_maximum:
+            target_list[i] = global_maximum
+
+    return target_list
+
     pass
 
 print(solution(5, [3, 4, 4, 6, 1, 4, 4]))   # [3, 2, 2, 4, 2]
